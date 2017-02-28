@@ -1,0 +1,6 @@
+controller\MyCalcController.class
+controller\PersonControl.class
+com\example\MicroserviceDemoApplication.class
+controller\SimpleController.class
+service\PersonService.class
+model\Person.class
