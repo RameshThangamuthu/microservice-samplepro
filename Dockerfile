@@ -1,6 +1,19 @@
 FROM frolvlad/alpine-oraclejdk8:slim
-VOLUME /tmp
-ADD microservice-demo-0.0.1.jar app.jar
-RUN sh -c 'touch /app.jar'
-ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+
+# Install maven
+RUN apt-get update  
+RUN apt-get install -y maven
+
+WORKDIR /microservice-samplepro
+
+# Prepare by downloading dependencies
+ADD pom.xml /microservice-samplepro/pom.xml  
+RUN ["mvn", "dependency:resolve"]  
+RUN ["mvn", "verify"]
+
+# Adding source, compile and package into a fat jar
+ADD src /microservice-samplepro/src  
+RUN ["mvn", "package"]
+
+EXPOSE 4567  
+CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", "target/microservice-demo-0.0.1.jar"]  
