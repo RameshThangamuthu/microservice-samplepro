@@ -1,5 +1,5 @@
 FROM frolvlad/alpine-oraclejdk8:slim
-
+RUN echo $PATH
 # Install maven
 RUN sudo apt-get update 
 RUN docker --name maven-data -it -v /root/.m2 maven:3-jdk-8 true  
