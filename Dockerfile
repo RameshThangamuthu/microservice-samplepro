@@ -1,7 +1,6 @@
-#docker run --name maven-data -it -v /root/.m2 maven:3-jdk-8 true
-#docker run -it --rm --volumes-from maven-data -v "$PWD":/usr/src/maven -w /usr/src/maven maven:3-jdk-8 mvn clean package
 FROM frolvlad/alpine-oraclejdk8:slim
-docker run --name maven-data -it -v /root/.m2 maven:3-jdk-8 true
-docker run -it --rm --volumes-from maven-data -v "$PWD":/usr/src/maven -w /usr/src/maven maven:3-jdk-8 mvn clean package
+VOLUME /tmp
 ADD microservice-demo-0.0.1.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+RUN sh -c 'touch /app.jar'
+ENV JAVA_OPTS=""
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
