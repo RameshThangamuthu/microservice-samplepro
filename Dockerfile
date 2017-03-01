@@ -1,8 +1,8 @@
 FROM frolvlad/alpine-oraclejdk8:slim
 
 # Install maven
-RUN apt-get update  
-RUN apt-get install -y maven
+RUN --name maven-data -it -v /root/.m2 maven:3-jdk-8 true  
+#RUN apt-get install -y maven
 
 WORKDIR /microservice-samplepro
 
